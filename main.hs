@@ -7,4 +7,9 @@ data Sym =   Flip
            deriving Show
 
 simplify :: [Sym] -> [Sym]
-simplify (x:xs) = x : xs
+simplify [Flip]            = [Flip]
+simplify [Rotation x]
+                   | x < 8 = [Rotation x]
+                   | otherwise = [Rotation (x `mod` 8)]
+simplify (Flip:Flip:xs) = xs
+simplify (Rotation x : Rotation y : xs) = Rotation (x + y) : xs
